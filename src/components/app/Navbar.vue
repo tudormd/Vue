@@ -1,0 +1,82 @@
+<template>
+  <nav class="navbar orange lighten-1">
+    <div class="nav-wrapper">
+      <div class="navbar-left">
+        <a href="#" @click.prevent="$emit('menu')">
+          <i class="material-icons black-text">{{
+            !value ? "dehaze" : "close"
+          }}</i>
+        </a>
+        <span class="black-text">{{ date }}</span>
+      </div>
+
+      <ul class="right hide-on-small-and-down">
+        <li>
+          <a
+            class="dropdown-trigger black-text"
+            href="#"
+            data-target="dropdown"
+            ref="dropdown"
+          >
+            USER NAME
+            <i class="material-icons right">arrow_drop_down</i>
+          </a>
+
+          <ul id="dropdown" class="dropdown-content">
+            <li>
+              <router-link to="/profile" class="black-text">
+                <i class="material-icons">account_circle</i>Профиль
+              </router-link>
+            </li>
+            <li class="divider" tabindex="-1"></li>
+            <li>
+              <a href="#" class="black-text" @click.prevent="logout">
+                <i class="material-icons">assignment_return</i>Выйти
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import { Dropdown } from "materialize-css";
+import moment from "moment";
+export default Vue.extend({
+  props: ["value"],
+  methods: {
+    logout() {
+      this.$router.push("/login?message=logout");
+    }
+  },
+  data: () => ({
+    date: moment()
+      .locale("ro")
+      .format("ddd DD MMMM YYYY, hh:mm:ss"),
+    interval: 0,
+    dropdown: Dropdown
+  }),
+  mounted() {
+    this.dropdown.init(this.$refs.dropdown as Element, {
+      constrainWidth: true
+    });
+    this.interval = setInterval(
+      () =>
+        (this.date = moment()
+          .locale("ro")
+          .format("ddd DD MMMM YYYY, hh:mm:ss")),
+      1000
+    );
+  },
+
+  beforeDestroy() {
+    clearInterval(this.interval);
+    if (this.dropdown && this.dropdown.prototype.destroy) {
+      this.dropdown.prototype.destroy();
+    }
+  }
+});
+</script>
