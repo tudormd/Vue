@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">Accounting</span>
       <div class="input-field">
         <input
           id="email"
@@ -45,22 +45,23 @@
         <small
           class="helper-text invalid"
           v-else-if="$v.password.$dirty && !$v.password.minLength"
-          >Min Password length {{ $v.password.$params.minLength.min }}, Now is
-          {{ password.length }}</small
         >
+          Min Password length {{ $v.password.$params.minLength.min }}, Now is
+          {{ password.length }}
+        </small>
       </div>
     </div>
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Войти
+          Log in
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Нет аккаунта?
-        <router-link to="/register">Зарегистрироваться</router-link>
+        Not account?
+        <router-link to="/register">Register</router-link>
       </p>
     </div>
   </form>
@@ -81,13 +82,20 @@ export default Vue.extend({
     password: { required, minLength: minLength(6) }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       }
       const formData = { email: this.email, password: this.password };
-      this.$router.push("/");
+      try {
+        await this.$store.dispatch("login", formData);
+        this.$router.push("/");
+      } catch (error) {
+        //@ts-ignore
+        this.$message(Message["notExit"]);
+        throw error;
+      }
     }
   },
 
