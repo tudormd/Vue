@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">Accounting</span>
       <div class="input-field">
         <input
           id="email"
@@ -46,9 +46,10 @@
           <small
             class="helper-text invalid"
             v-else-if="$v.password.$dirty && !$v.password.minLength"
-            >Min Password length {{ $v.password.$params.minLength.min }}, Now is
-            {{ password.length }}</small
           >
+            Min Password length {{ $v.password.$params.minLength.min }}, Now is
+            {{ password.length }}
+          </small>
         </div>
       </div>
       <div class="input-field">
@@ -62,7 +63,7 @@
               ($v.name.$dirty && !$v.name.minLength)
           }"
         />
-        <label for="name">Имя</label>
+        <label for="name">Name</label>
         <small
           class="helper-text invalid"
           v-if="$v.name.$dirty && !$v.name.required"
@@ -71,28 +72,29 @@
         <small
           class="helper-text invalid"
           v-else-if="$v.name.$dirty && !$v.name.minLength"
-          >Min Name length {{ $v.name.$params.minLength.min }}, Now is
-          {{ name.length }}</small
         >
+          Min Name length {{ $v.name.$params.minLength.min }}, Now is
+          {{ name.length }}
+        </small>
       </div>
       <p>
         <label>
           <input type="checkbox" v-model="agree" />
-          <span>С правилами согласен</span>
+          <span>I agree with the rules</span>
         </label>
       </p>
     </div>
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Зарегистрироваться
+          Register
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Уже есть аккаунт?
-        <router-link to="/login">Войти!</router-link>
+        Already have an account ?
+        <router-link to="/login">Log In !</router-link>
       </p>
     </div>
   </form>
