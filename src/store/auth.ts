@@ -9,6 +9,39 @@ export default {
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (error) {
+        commit("setError", error);
+        throw error;
+      }
+    },
+    async logout() {
+      await firebase.auth().signOut();
+    },
+
+    getUid() {
+      const user = firebase.auth().currentUser;
+      return user ? user.uid : null;
+    },
+
+    async register(
+      { dispatch, commit }: { [key: string]: any },
+      {
+        email,
+        password,
+        name
+      }: { email: string; password: string; name: string }
+    ) {
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const uId = await dispatch("getUid");
+        await firebase
+          .database()
+          .ref(`/user/${uId}/info`)
+          .set({
+            bill: 1000,
+            name
+          });
+      } catch (error) {
+        commit("setError", error);
         throw error;
       }
     }

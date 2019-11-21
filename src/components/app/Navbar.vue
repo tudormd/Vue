@@ -3,9 +3,9 @@
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('menu')">
-          <i class="material-icons black-text">{{
-            !value ? "dehaze" : "close"
-          }}</i>
+          <i class="material-icons black-text">
+            {{ !value ? "dehaze" : "close" }}
+          </i>
         </a>
         <span class="black-text">{{ date }}</span>
       </div>
@@ -48,7 +48,8 @@ import moment from "moment";
 export default Vue.extend({
   props: ["value"],
   methods: {
-    logout() {
+    async logout() {
+      await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
     }
   },
