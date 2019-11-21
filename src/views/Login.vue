@@ -92,8 +92,6 @@ export default Vue.extend({
         await this.$store.dispatch("login", formData);
         this.$router.push("/");
       } catch (error) {
-        //@ts-ignore
-        this.$message(Message["notExit"]);
         throw error;
       }
     }

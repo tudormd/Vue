@@ -1,4 +1,4 @@
 export const Message: { [index: string]: string } = {
   logout: "You are logged out",
-  notExit: "User not exist"
+  "auth/user-not-found": "User not found"
 };
