@@ -3,9 +3,9 @@
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('menu')">
-          <i class="material-icons black-text">
-            {{ !value ? "dehaze" : "close" }}
-          </i>
+          <i class="material-icons black-text">{{
+            !value ? "dehaze" : "close"
+          }}</i>
         </a>
         <span class="black-text">{{ date }}</span>
       </div>
@@ -18,7 +18,7 @@
             data-target="dropdown"
             ref="dropdown"
           >
-            USER NAME
+            {{ name }}
             <i class="material-icons right">arrow_drop_down</i>
           </a>
 
@@ -47,12 +47,6 @@ import { Dropdown } from "materialize-css";
 import moment from "moment";
 export default Vue.extend({
   props: ["value"],
-  methods: {
-    async logout() {
-      await this.$store.dispatch("logout");
-      this.$router.push("/login?message=logout");
-    }
-  },
   data: () => ({
     date: moment()
       .locale("ro")
@@ -60,6 +54,19 @@ export default Vue.extend({
     interval: 0,
     dropdown: Dropdown
   }),
+
+  methods: {
+    async logout() {
+      await this.$store.dispatch("logout");
+      this.$router.push("/login?message=logout");
+    }
+  },
+  computed: {
+    name() {
+      const name = this.$store.getters.info.name as string;
+      return name;
+    }
+  },
   mounted() {
     this.dropdown.init(this.$refs.dropdown as Element, {
       constrainWidth: true

@@ -13,8 +13,9 @@ export default {
         throw error;
       }
     },
-    async logout() {
+    async logout({ commit }: { commit: any }) {
       await firebase.auth().signOut();
+      commit("clearInfo");
     },
 
     getUid() {
