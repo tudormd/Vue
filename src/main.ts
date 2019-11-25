@@ -14,9 +14,12 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import toast from "@/utils/toasts";
+//@ts-ignore
+import Loader from "@/components/app/Loader";
 
 Vue.use(toast);
 Vue.use(Vuelidate);
+Vue.component("Loader", Loader);
 Vue.config.productionTip = false;
 
 firebase.initializeApp({
