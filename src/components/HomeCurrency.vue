@@ -15,10 +15,10 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>руб</td>
-              <td>12121</td>
-              <td>12.12.12</td>
+            <tr v-for="cur in rates" :key="cur">
+              <td>{{ cur.currencies_name }}</td>
+              <td>{{ cur.sell }}</td>
+              <td>{{ formatData(cur.exchange_rate_date) }}</td>
             </tr>
           </tbody>
         </table>
@@ -26,3 +26,16 @@
     </div>
   </div>
 </template>
+<script>
+import moment from "moment";
+export default {
+  props: ["rates"],
+  methods: {
+    formatData(data) {
+      return moment(data)
+        .locale(navigator.language)
+        .format("DD MMMM YYYY");
+    }
+  }
+};
+</script>
