@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import moment from "moment";
+
 import auth from "./auth";
 import info from "./info";
 
@@ -20,7 +22,9 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchCurrency() {
-      return [];
+      return await (await fetch(
+        `http://pki.maib.md/rates/BNM${moment().format("YYYYMMDD")}.json`
+      )).json();
     }
   },
   getters: {

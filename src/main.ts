@@ -16,9 +16,11 @@ import store from "./store";
 import toast from "@/utils/toasts";
 //@ts-ignore
 import Loader from "@/components/app/Loader";
+import currencyFilter from "@/filters/currency.filter";
 
 Vue.use(toast);
 Vue.use(Vuelidate);
+Vue.filter("currency", currencyFilter);
 Vue.component("Loader", Loader);
 Vue.config.productionTip = false;
 

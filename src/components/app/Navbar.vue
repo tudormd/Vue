@@ -49,7 +49,7 @@ export default Vue.extend({
   props: ["value"],
   data: () => ({
     date: moment()
-      .locale("ro")
+      .locale(navigator.language)
       .format("ddd DD MMMM YYYY, hh:mm:ss"),
     interval: 0,
     dropdown: Dropdown
@@ -74,7 +74,7 @@ export default Vue.extend({
     this.interval = setInterval(
       () =>
         (this.date = moment()
-          .locale("ro")
+          .locale(navigator.language)
           .format("ddd DD MMMM YYYY, hh:mm:ss")),
       1000
     );
