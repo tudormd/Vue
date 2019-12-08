@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
-      <span class="card-title">Accounting</span>
+      <span class="card-title">{{ $t("Accounting") }}</span>
       <div class="input-field">
         <input
           id="email"
@@ -13,16 +13,16 @@
               ($v.email.$dirty && !$v.email.email)
           }"
         />
-        <label for="email">Email</label>
+        <label for="email">{{ $t("Email") }}</label>
         <small
           class="helper-text invalid"
           v-if="$v.email.$dirty && !$v.email.required"
-          >Email cannot be empty</small
+          >{{ $t("Email cannot be empty") }}</small
         >
         <small
           class="helper-text invalid"
           v-else-if="$v.email.$dirty && !$v.email.email"
-          >Email is not correct</small
+          >{{ $t("Email is not correct") }}</small
         >
       </div>
       <div class="input-field">
@@ -36,17 +36,18 @@
               ($v.password.$dirty && !$v.password.minLength)
           }"
         />
-        <label for="password">Password</label>
+        <label for="password">{{ $t("Password") }}</label>
         <small
           class="helper-text invalid"
           v-if="$v.password.$dirty && !$v.password.required"
-          >Enter Password</small
+          >{{ $t("Enter Password") }}</small
         >
         <small
           class="helper-text invalid"
           v-else-if="$v.password.$dirty && !$v.password.minLength"
         >
-          Min Password length {{ $v.password.$params.minLength.min }}, Now is
+          {{ $t("Min Password length") }}
+          {{ $v.password.$params.minLength.min }}, {{ $t("Now is") }}
           {{ password.length }}
         </small>
       </div>
@@ -54,14 +55,14 @@
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit" type="submit">
-          Log in
+          {{ $t("Log in") }}
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Not account?
-        <router-link to="/register">Register</router-link>
+        {{ $t("Not account") }} ?
+        <router-link to="/register"> {{ $t("Register") }}</router-link>
       </p>
     </div>
   </form>
