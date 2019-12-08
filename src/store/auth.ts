@@ -36,7 +36,7 @@ export default {
         const uId = await dispatch("getUid");
         await firebase
           .database()
-          .ref(`/user/${uId}/info`)
+          .ref(`/users/${uId}/info`)
           .set({
             bill: 1000,
             name

@@ -8,19 +8,20 @@
       :to="link.url"
       :exact="link.exact"
     >
-      <a href="#">{{ link.name }}</a>
+      <a href="#">{{ $t(link.name) }}</a>
     </router-link>
   </ul>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+
 export default Vue.extend({
   props: ["value"],
   data: () => ({
     links: [
-      { name: "Score", url: "/", exact: true },
-      { name: "History ", url: "/history" },
+      { name: "Bill", url: "/", exact: true },
+      { name: "History", url: "/history" },
       { name: "Planning", url: "/planning" },
       { name: "New entry", url: "/record" },
       { name: "Categories", url: "/categories" }

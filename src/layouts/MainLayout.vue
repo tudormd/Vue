@@ -11,7 +11,7 @@
         </div>
       </main>
 
-      <div class="fixed-action-btn">
+      <div class="fixed-action-btn" v-tooltip="'Add new category'">
         <router-link class="btn-floating btn-large blue" to="/record">
           <i class="large material-icons">add</i>
         </router-link>
@@ -21,11 +21,14 @@
 </template>
 
 <script lang="ts">
+import { Message } from "@/utils/message";
+
 //@ts-ignore
 import Navbar from "@/components/app/Navbar";
 //@ts-ignore
 import Sidebar from "@/components/app/Sidebar";
 import Vue from "vue";
+
 export default Vue.extend({
   name: "main-layout",
   data: () => ({
@@ -41,6 +44,18 @@ export default Vue.extend({
   components: {
     Navbar,
     Sidebar
+  },
+
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    }
+  },
+  watch: {
+    error(fBerror) {
+      //@ts-ignore
+      this.$message(Message[fBerror.code] || fBerror.message);
+    }
   }
 });
 </script>

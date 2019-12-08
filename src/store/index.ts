@@ -5,6 +5,8 @@ import moment from "moment";
 
 import auth from "./auth";
 import info from "./info";
+import category from "./category";
+import record from "./record";
 
 Vue.use(Vuex);
 
@@ -20,6 +22,7 @@ export default new Vuex.Store({
       state.error = null;
     }
   },
+
   actions: {
     async fetchCurrency() {
       return await (await fetch(
@@ -32,6 +35,8 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
-    info
+    info,
+    category,
+    record
   }
 });

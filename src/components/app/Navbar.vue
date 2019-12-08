@@ -3,9 +3,9 @@
     <div class="nav-wrapper">
       <div class="navbar-left">
         <a href="#" @click.prevent="$emit('menu')">
-          <i class="material-icons black-text">{{
-            !value ? "dehaze" : "close"
-          }}</i>
+          <i class="material-icons black-text">
+            {{ !value ? "dehaze" : "close" }}
+          </i>
         </a>
         <span class="black-text">{{ date }}</span>
       </div>
@@ -25,13 +25,33 @@
           <ul id="dropdown" class="dropdown-content">
             <li>
               <router-link to="/profile" class="black-text">
-                <i class="material-icons">account_circle</i>Профиль
+                <i class="material-icons">account_circle</i>
+                {{ $t("Profile") }}
               </router-link>
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
               <a href="#" class="black-text" @click.prevent="logout">
-                <i class="material-icons">assignment_return</i>Выйти
+                <i class="material-icons">assignment_return</i>
+                {{ $t("Logout") }}
+              </a>
+            </li>
+            <li>
+              <a href="#" class="black-text" @click.prevent="setLocale('ro')">
+                <flag iso="md"></flag>
+                {{ $t("Ro") }}
+              </a>
+            </li>
+            <li>
+              <a href="#" class="black-text" @click.prevent="setLocale('ru')">
+                <flag iso="ru"></flag>
+                {{ $t("Ru") }}
+              </a>
+            </li>
+            <li>
+              <a href="#" class="black-text" @click.prevent="setLocale('en')">
+                <flag iso="us"></flag>
+                {{ $t("En") }}
               </a>
             </li>
           </ul>
@@ -42,9 +62,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import { Dropdown } from "materialize-css";
+import Vue from "vue";
 import moment from "moment";
+
 export default Vue.extend({
   props: ["value"],
   data: () => ({
@@ -59,12 +80,14 @@ export default Vue.extend({
     async logout() {
       await this.$store.dispatch("logout");
       this.$router.push("/login?message=logout");
+    },
+    setLocale(locale: string) {
+      this.$i18n.locale = locale;
     }
   },
   computed: {
     name() {
-      const name = this.$store.getters.info.name as string;
-      return name;
+      return this.$store.getters.info.name as string;
     }
   },
   mounted() {
@@ -74,7 +97,7 @@ export default Vue.extend({
     this.interval = setInterval(
       () =>
         (this.date = moment()
-          .locale(navigator.language)
+          .locale(this.$i18n ? this.$i18n.locale : navigator.language)
           .format("ddd DD MMMM YYYY, hh:mm:ss")),
       1000
     );
