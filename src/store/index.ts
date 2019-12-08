@@ -26,7 +26,9 @@ export default new Vuex.Store({
   actions: {
     async fetchCurrency() {
       return await (await fetch(
-        `http://pki.maib.md/rates/BNM${moment().format("YYYYMMDD")}.json`
+        `https://mba.innovapp.eu/mock/mba/rates/BNM${moment().format(
+          "YYYYMMDD"
+        )}.json`
       )).json();
     }
   },

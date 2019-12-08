@@ -44,9 +44,10 @@
           <span
             v-if="$v.limit.$dirty && !$v.limit.minValue"
             class="helper-text invalid"
-            >{{ $t("Minimum limit is") }}
-            {{ $v.limit.$params.minValue.min }},</span
           >
+            {{ $t("Minimum limit is") }}
+            {{ $v.limit.$params.minValue.min }},
+          </span>
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
@@ -62,6 +63,7 @@
 import { required, minValue } from "vuelidate/lib/validators";
 import Vue from "vue";
 import M from "materialize-css";
+import { mapGetters } from "vuex";
 
 export default Vue.extend({
   name: "edit-category",
@@ -72,7 +74,9 @@ export default Vue.extend({
       default: () => [] as { id: string; title: string; limit: number }[]
     }
   },
-
+  computed: {
+    ...mapGetters(["info"])
+  },
   data: () => ({
     select: {},
     name: "",
@@ -119,24 +123,33 @@ export default Vue.extend({
         this.$v.$touch();
         return;
       }
-      try {
-        await this.$store.dispatch("updateCategory", {
-          id: this.current,
-          title: this.name,
-          limit: this.limit
-        });
+      if (this.limit <= this.info.bill) {
+        try {
+          await this.$store.dispatch("updateCategory", {
+            id: this.current,
+            title: this.name,
+            limit: this.limit
+          });
+          // @ts-ignore
+          this.$message(this.$t("Category updated"));
+          setTimeout(() => {
+            M.updateTextFields();
+          });
+          this.$emit("updated", {
+            id: this.current,
+            title: this.name,
+            limit: this.limit
+          });
+        } catch (error) {
+          throw error;
+        }
+      } else {
         // @ts-ignore
-        this.$message(this.$t("Category updated"));
-        setTimeout(() => {
-          M.updateTextFields();
-        });
-        this.$emit("updated", {
-          id: this.current,
-          title: this.name,
-          limit: this.limit
-        });
-      } catch (error) {
-        throw error;
+        this.$message(
+          this.$t("Insufficient means in your  account, your bill") +
+            " - " +
+            this.info.bill
+        );
       }
     }
   }
