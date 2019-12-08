@@ -166,7 +166,7 @@ export default Vue.extend({
               : this.info.bill - this.ammount;
           await this.$store.dispatch("updateInfo", { bill });
           // @ts-ignore
-          this.$message("Rercord succes created");
+          this.$message(this.$t("Entry successful created"));
           this.$v.$reset();
           this.ammount = 1;
           this.description = "";
