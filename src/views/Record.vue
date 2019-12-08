@@ -159,11 +159,12 @@ export default Vue.extend({
             data: new Date().toJSON()
           });
 
-          // @ts-ignore
           const bill =
             this.type === "income"
-              ? this.info.bill + this.ammount
-              : this.info.bill - this.ammount;
+              ? // @ts-ignore
+                this.info.bill + this.ammount
+              : // @ts-ignore
+                this.info.bill - this.ammount;
           await this.$store.dispatch("updateInfo", { bill });
           // @ts-ignore
           this.$message(this.$t("Entry successful created"));
@@ -176,6 +177,7 @@ export default Vue.extend({
       } else {
         // @ts-ignore
         this.$message(
+          // @ts-ignore
           `Insufficient funds in the account (${this.ammount - this.info.bill})`
         );
       }
