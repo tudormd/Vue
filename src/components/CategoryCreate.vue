@@ -47,18 +47,24 @@
 
 <script lang="ts">
 import { required, minValue } from "vuelidate/lib/validators";
+import { mapGetters } from "vuex";
+
 import M from "materialize-css";
 import Vue from "vue";
 
 export default Vue.extend({
   data: () => ({
     title: "",
-    limit: 100
+    limit: 10
   }),
+
+  computed: {
+    ...mapGetters(["info"])
+  },
 
   validations: {
     title: { required },
-    limit: { minValue: minValue(100) }
+    limit: { minValue: minValue(10) }
   },
 
   mounted() {
@@ -71,18 +77,27 @@ export default Vue.extend({
         this.$v.$touch();
         return;
       }
-      try {
-        const category = await this.$store.dispatch("createCategory", {
-          title: this.title,
-          limit: this.limit
-        });
-        (this.title = ""), (this.limit = 100);
-        this.$v.$reset();
+      if (this.limit <= this.info.bill) {
+        try {
+          const category = await this.$store.dispatch("createCategory", {
+            title: this.title,
+            limit: this.limit
+          });
+          (this.title = ""), (this.limit = 10);
+          this.$v.$reset();
+          // @ts-ignore
+          this.$message(this.$t("Category created"));
+          this.$emit("created", category);
+        } catch (error) {
+          throw error;
+        }
+      } else {
         // @ts-ignore
-        this.$message(this.$t("Category created"));
-        this.$emit("created", category);
-      } catch (error) {
-        throw error;
+        this.$message(
+          this.$t("Insufficient means in your  account, your bill") +
+            " - " +
+            this.info.bill
+        );
       }
     }
   }
